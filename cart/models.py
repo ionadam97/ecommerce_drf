@@ -2,8 +2,7 @@ from django.db import models
 from product.models import Product
 from core.models import TimeStampedModel
 from django.contrib.auth import get_user_model
-from django.dispatch import receiver
-from django.db.models.signals import post_save
+
 
 User = get_user_model()
 
@@ -12,15 +11,13 @@ class Cart(TimeStampedModel):
     user = models.OneToOneField(
         User, related_name="user_cart", on_delete=models.CASCADE
     )
-    total = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0, blank=True, null=True
-    )
+    
+    def calculate_total(self):
+        total = 0
+        for item in self.cart_item.all():
+            total += item.product.price * item.quantity
+        return total
 
-
-@receiver(post_save, sender=User)
-def create_user_cart(sender, created, instance, *args, **kwargs):
-    if created:
-        Cart.objects.create(user=instance)
 
 
 class CartItem(TimeStampedModel):
