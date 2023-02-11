@@ -3,7 +3,6 @@ from product.models import Product
 from core.models import TimeStampedModel
 from django.contrib.auth import get_user_model
 
-
 User = get_user_model()
 
 
@@ -12,6 +11,9 @@ class Cart(TimeStampedModel):
         User, related_name="user_cart", on_delete=models.CASCADE
     )
     
+    def __str__(self):
+        return self.user
+
     def calculate_total(self):
         total = 0
         for item in self.cart_item.all():
@@ -26,3 +28,6 @@ class CartItem(TimeStampedModel):
         Product, related_name="cart_product", on_delete=models.CASCADE
     )
     quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.product
