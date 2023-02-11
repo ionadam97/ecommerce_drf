@@ -2,5 +2,5 @@ env/
 __pycache__/
 uploads/
 config.py
-db.sqlite3
+*.sqlite3
 
