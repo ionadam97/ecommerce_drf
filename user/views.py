@@ -17,7 +17,6 @@ from rest_framework.generics import (GenericAPIView,
     RetrieveUpdateAPIView, 
     RetrieveUpdateDestroyAPIView
 )
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.exceptions import NotAcceptable
 from user.permissions import IsUserOwner
 from django.utils.translation import gettext_lazy as _
@@ -37,17 +36,6 @@ sensitive_post_parameters_m = method_decorator(
     )
 )
 
-class DeleteA(APIView):
-    def get(self, request, *args, **kwargs):
-        try:
-            print(UserModel.objects.get(username=request.data['username']))
-            UserModel.objects.get(username=request.data['username']).delete()
-        except (AttributeError, ObjectDoesNotExist):
-            pass
-
-        response = Response({"detail": _("Successfully logged out.")},
-                            status=status.HTTP_200_OK)
-        return response
 
 class RegisterAPIView(RegisterView):
     @sensitive_post_parameters_m
@@ -92,10 +80,6 @@ class VerifyEmailView(APIView, ConfirmEmailView):
 
 
 class PasswordChangeView(GenericAPIView):
-    """
-    Accepts the following POST parameters: new_password1, new_password2
-    Returns the success/fail message.
-    """
     serializer_class = PasswordChangeSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -147,18 +131,6 @@ class ProfileView(RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
-
-
-class AddressViewSet(ModelViewSet):
-
-    queryset = ShippingAddress.objects.all()
-    permission_classes = (IsUserOwner,)
-    serializer_class = ShippingAddressSerializer
-    
-    def get_queryset(self):
-        res = super().get_queryset()
-        user = self.request.user
-        return res.filter(user=user)
 
 
 class AddressView(ListAPIView):

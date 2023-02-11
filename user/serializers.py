@@ -1,7 +1,7 @@
-from rest_framework import serializers, exceptions
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from .models import Profile, ShippingAddress
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
@@ -119,9 +119,7 @@ class PasswordChangeSerializer(serializers.Serializer):
 
 
 class PasswordResetSerializer(serializers.Serializer):
-    """
-    Serializer for requesting a password reset e-mail.
-    """
+
     email = serializers.EmailField()
     password_reset_form_class = PasswordResetForm
 
@@ -145,9 +143,7 @@ class PasswordResetSerializer(serializers.Serializer):
 
 
 class PasswordResetConfirmSerializer(serializers.Serializer):
-    """
-    Serializer for requesting a password reset e-mail.
-    """
+
     new_password1 = serializers.CharField(max_length=128)
     new_password2 = serializers.CharField(max_length=128)
     uid = serializers.CharField()

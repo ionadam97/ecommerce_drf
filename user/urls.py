@@ -7,8 +7,7 @@ from .views import (
     ProfileView, 
     AddressView,
     CreateAddressView,
-    AddressDetailView, 
-    DeleteA
+    AddressDetailView,
 )
 from rest_auth.views import (
     LoginView,
@@ -35,8 +34,4 @@ urlpatterns = [
     path('profile/address/', AddressView.as_view(), name='address'),
     path('profile/address/<int:pk>/', AddressDetailView.as_view(), name='address'),
     path('profile/address/create/', CreateAddressView.as_view(), name='create_address'),
-
-
-
-    path('del/', DeleteA.as_view(), name='del'),
 ]
