@@ -3,3 +3,10 @@ __pycache__/
 uploads/
 /config.py
 /db.sqlite3
+__pycache__
+db.sqlite3
+media
+.DS_Store
+*.sqlite3
+*.pid
+*.cpython-37.*
